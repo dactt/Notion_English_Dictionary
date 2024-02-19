@@ -1,0 +1,37 @@
+{
+  "name": "Cambridge to Notion test",
+  "version": "1.0",
+  "description": "Port data from Cambridge dictionary to Notion database",
+  "manifest_version": 3,
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "js/custom.js"
+      ]
+    }
+  ],
+  "action": {
+    "default_popup": "html/main.html"
+  },
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "icons": {
+    "16": "asset/sm_log128.png",
+    "32": "asset/sm_log128.png",
+    "48": "asset/sm_log128.png",
+    "128": "asset/sm_log128.png"
+  },
+  "options_page": "html/options.html",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "tabs",
+    "downloads",
+    "notifications"
+  ]
+}

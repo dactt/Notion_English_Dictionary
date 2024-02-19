@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Cambridge to Notion Options</title>
+</head>
+
+<body>
+    <div class="options-page-container">
+        <div class="content">
+            <h3>Notion token</h3>
+            <textarea id="token" class="options-page-input-text" placeholder="Notion token" autofocus></textarea>
+            <h3>Database ID</h3>
+            <textarea id="database-id" class="options-page-input-text" placeholder="Database ID"></textarea>
+            <h3>Linked Page ID (optional)</h3>
+            <textarea id="linked-page-id" class="options-page-input-text" placeholder="Linked Page ID"></textarea>
+        </div>
+        <button id="btn-save" class="btn"><b>SAVE</b></button>
+        <div id="result">
+            <p id="save-status"></p>
+        </div>
+
+
+
+        <div id="result">
+            <p id="save-status">Duplicate this template: <a href="https://list99.notion.site/Vocabulary-template-63fcaddf4c8c43478ce8e39b7db203ab"><b>LINK</b></a></p>
+        </div>
+
+        <div id="result">
+            <p id="save-status">Create a Notion intergrations (setting => connection), it is Notion Token</p>
+            <p id="save-status">Add this intergrations into notion page (page setting)</p>
+        </div>
+
+        <div id="result">
+            <p id="save-status"><b>Notion Token:</b> find in the setting => connection </p>
+            <p id="save-status">example:
+                <b>secret_SSF5290ixXCX1OPSH7Vlltzix7xrOdnPIqEYhSMjaqj</b></p>
+            
+        </div>
+        <div id="result">
+            <p id="save-status"><b>Database ID:</b> Open the database in new page, you will see the database id in url.
+            </p>
+            <p id="save-status">example:
+                https://www.notion.so/VNsieucapvip/<b>960562252b9b4fb2adf0fdeec15b9ba4</b>?v=8284f76015274763aabbed08dd1e3275</p>
+        </div>
+        <div id="result">
+            <p id="save-status"><b>Linked Page ID:</b> Open the linked page (Statistic page) in new page, you will see the linked page id in url</p>
+            <p id="save-status">example:
+                https://www.notion.so/VNsieucapvip/Statistic-<b>93a09dee2fb842969e0a5cc1fdd2d203</b></p>
+        </div>
+    </div>
+
+    <script src="../js/option.js"></script>
+
+</body>
+
+</html>
