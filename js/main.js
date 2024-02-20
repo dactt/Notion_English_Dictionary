@@ -169,7 +169,7 @@ async function getWordInfo(word) {
                     exampleSentences += `- ${exampleText}\n`;
                 });
             }
-
+            exampleSentences += `\n`;
         });
 
         const partOfSpeech = [...new Set(partOfSpeechAll)];

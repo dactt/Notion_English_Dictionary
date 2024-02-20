@@ -1,5 +1,5 @@
 {
-  "name": "Cambridge to Notion test",
+  "name": "Cambridge to Notion",
   "version": "1.0",
   "description": "Port data from Cambridge dictionary to Notion database",
   "manifest_version": 3,
