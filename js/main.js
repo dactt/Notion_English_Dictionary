@@ -27,7 +27,7 @@ async function pushToNotion() {
             pos_array.push(POS[pos])
         }
     })
-    console.log(pos_array)
+
     var template = {
         "pronounce": {
             "type": "rich_text",
@@ -79,7 +79,7 @@ async function pushToNotion() {
     }
     // Call the createNotionPage function with the pageData
     const rp = await createNotionPage(template);
-    console.log(rp)
+
     if (rp) {
         document.getElementById("status").innerHTML = "Success"
     }
@@ -148,7 +148,6 @@ async function getWordInfo(word) {
         if (pos) {
             pos.forEach((pos) => {
                 const posText = partOfSpeechAll.push(pos.textContent.trim());
-                console.log(pos.textContent.trim())
             });
         }
 
@@ -181,7 +180,6 @@ async function getWordInfo(word) {
             partOfSpeech,
         };
     } catch (error) {
-        console.error('Error:', error);
         return {
             pronunciation: '',
             meaning: '',
