@@ -172,7 +172,8 @@ async function getWordInfo(word) {
         });
 
         const partOfSpeech = [...new Set(partOfSpeechAll)];
-
+        exampleSentences = exampleSentences.trim(),
+        meaning = meaning.trim()
         return {
             pronunciation,
             meaning,
