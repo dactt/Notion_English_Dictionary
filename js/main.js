@@ -157,7 +157,9 @@ async function getWordInfo(word) {
             const def_card = defBlock.querySelector('.def');
             if (def_card) {
                 const def = def_card.textContent.replace(':', '').trim();
-                meaning += `- ${def}\n`;
+                if (meaning.length + def.length < 1900) {
+                    meaning += `- ${def}\n`;
+                }
             };
 
 
@@ -165,7 +167,9 @@ async function getWordInfo(word) {
             if (examples) {
                 examples.forEach((example) => {
                     const exampleText = example.textContent.trim();
-                    exampleSentences += `- ${exampleText}\n`;
+                    if (exampleSentences.length + exampleText.length < 1900) {
+                        exampleSentences += `- ${exampleText}\n`;
+                    }
                 });
             }
             exampleSentences += `\n`;
@@ -173,7 +177,7 @@ async function getWordInfo(word) {
 
         const partOfSpeech = [...new Set(partOfSpeechAll)];
         exampleSentences = exampleSentences.trim(),
-        meaning = meaning.trim()
+            meaning = meaning.trim()
         return {
             pronunciation,
             meaning,
