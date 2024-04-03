@@ -119,6 +119,45 @@ async function createNotionPage(data) {
     }
 }
 
+async function isDuplicatedWord(word) {
+    auth = await chrome.storage.sync.get(["notionToken", "databaseId"])
+    const YOUR_AUTH_TOKEN = auth.notionToken;
+    const DATABASE_ID = auth.databaseId;
+    const databaseQueryUrl = `https://api.notion.com/v1/databases/${DATABASE_ID}/query`;
+
+    const filter = {
+        "and": [
+            {
+                "property": "title",
+                "title": {
+                    "equals": word
+                }
+            }
+        ]
+    }
+    const payload = { "filter": filter };
+
+    const response = await fetch(databaseQueryUrl, {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + YOUR_AUTH_TOKEN, // Replace with your Notion API token
+            'Content-Type': 'application/json',
+            "Notion-Version": "2022-06-28",
+        },
+        body: JSON.stringify(payload),
+    })
+
+    if (!response.ok) {
+        return false
+    }
+    else {
+        const content = await response.json()
+        if (content["results"].length == 0) {
+            return false
+        }
+        return true
+    }
+}
 
 async function getWordInfo(word) {
     const url = `https://dictionary.cambridge.org/dictionary/english/${word}`;
