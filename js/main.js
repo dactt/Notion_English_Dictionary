@@ -157,6 +157,9 @@ async function getWordInfo(word) {
             const def_card = defBlock.querySelector('.def');
             if (def_card) {
                 const def = def_card.textContent.replace(':', '').trim();
+                if (meaning.includes(def)){
+                    return;
+                };
                 if (meaning.length + def.length < 1900) {
                     meaning += `- ${def}\n`;
                 }
