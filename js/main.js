@@ -34,6 +34,8 @@ async function pushToNotion() {
         }
     })
 
+    rich_text = anotation(wordInfo.exampleSentences, word, "red")
+
     var template = {
         "pronounce": {
             "type": "rich_text",
@@ -47,12 +49,7 @@ async function pushToNotion() {
         "spoiled": { "type": "checkbox", "checkbox": true },
         "sentence/note": {
             "type": "rich_text",
-            "rich_text": [
-                {
-                    "type": "text",
-                    "text": { "content": wordInfo.exampleSentences },
-                }
-            ],
+            "rich_text": rich_text,
         },
         "meaning": {
             "type": "rich_text",
@@ -83,7 +80,7 @@ async function pushToNotion() {
             "relation": [{ "id": linked_page.linkedPageId }],
         },
     }
-    // Call the createNotionPage function with the pageData
+
     const rp = await createNotionPage(template);
 
     if (rp) {
@@ -93,6 +90,48 @@ async function pushToNotion() {
         document.getElementById("status").innerHTML = "Faile to create Notion page"
     }
 };
+
+function anotation(sentence, word, color) {
+    let lowerCaseSentence = sentence.toLowerCase()
+    let currentPos = 0
+    let result = []
+    const re = /[^a-zA-Z]/g
+    const nonAphabet = lowerCaseSentence.matchAll(re)
+    while (lowerCaseSentence.indexOf(word, currentPos) != -1) {
+        let fontPos = 0
+        let backPos = lowerCaseSentence.length
+        let wordPos = lowerCaseSentence.indexOf(word, currentPos)
+
+        for (const pos of nonAphabet) {
+            if (pos.index < wordPos) {
+                fontPos = pos.index;
+            }
+            else {
+                backPos = pos.index;
+                break;
+            }
+        }
+        console.log(fontPos)
+        result.push({
+            "type": "text",
+            "text": {
+                "content": sentence.slice(currentPos, fontPos),
+            },
+        })
+
+        result.push({
+            "type": "text",
+            "text": {
+                "content": sentence.slice(fontPos, backPos),
+            },
+            "annotations": {
+                "color": color
+            },
+        })
+        currentPos = backPos
+    }
+    return result
+}
 
 async function createNotionPage(data) {
     const createPageUrl = "https://api.notion.com/v1/pages";
@@ -202,7 +241,7 @@ async function getWordInfo(word) {
             const def_card = defBlock.querySelector('.def');
             if (def_card) {
                 const def = def_card.textContent.replace(':', '').trim();
-                if (meaning.includes(def)){
+                if (meaning.includes(def)) {
                     return;
                 };
                 if (meaning.length + def.length < 1900) {
@@ -211,7 +250,7 @@ async function getWordInfo(word) {
             };
 
 
-            const examples = defBlock.querySelectorAll('.examp');
+            const examples = defBlock.querySelectorAll('.eg');
             if (examples) {
                 examples.forEach((example) => {
                     const exampleText = example.textContent.trim();
