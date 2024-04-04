@@ -4,6 +4,12 @@ async function pushToNotion() {
     if (word == "") {
         document.getElementById("status").innerHTML = "It is empty"
         return 0
+    };
+
+    const flat = await isDuplicatedWord(word)
+    if (flat) {
+        document.getElementById("status").innerHTML = "Duplicate"
+        return 0
     }
     const wordInfo = await getWordInfo(word);
     linked_page = await chrome.storage.sync.get(["linkedPageId"])
