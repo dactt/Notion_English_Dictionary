@@ -245,6 +245,7 @@ async function getWordInfo(word) {
                 Vietnamese += `- ${vietnamese_block.textContent}\n`;
             })
         }
+        Vietnamese = Vietnamese.trim()
         const html = await response.text();
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
