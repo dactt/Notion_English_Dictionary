@@ -79,6 +79,17 @@ async function pushToNotion() {
             "type": "relation",
             "relation": [{ "id": linked_page.linkedPageId }],
         },
+        "Vietnamese": {
+            "type": "rich_text",
+            "rich_text": [
+                {
+                    "type": "text",
+                    "text": {
+                        "content": wordInfo.Vietnamese,
+                    },
+                }
+            ],
+        },
     }
 
     const rp = await createNotionPage(template);
@@ -111,7 +122,6 @@ function anotation(sentence, word, color) {
                 break;
             }
         }
-        console.log(fontPos)
         result.push({
             "type": "text",
             "text": {
@@ -206,9 +216,16 @@ async function isDuplicatedWord(word) {
 
 async function getWordInfo(word) {
     const url = `https://dictionary.cambridge.org/dictionary/english/${word}`;
-
+    const url_vn = `https://dictionary.cambridge.org/dictionary/english-vietnamese/${word}`;
     try {
         const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)',
+            },
+        });
+
+        const response_vn = await fetch(url_vn, {
             method: 'GET',
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)',
@@ -218,11 +235,20 @@ async function getWordInfo(word) {
         if (!response.ok) {
             throw new Error('Failed to fetch word info');
         }
-
+        let Vietnamese = '';
+        if (response_vn.ok) {
+            const html_vn = await response_vn.text();
+            const parser_vn = new DOMParser();
+            const doc_vn = parser_vn.parseFromString(html_vn, 'text/html');
+            const vietnamese_blocks = doc_vn.querySelectorAll('.trans');
+            vietnamese_blocks.forEach((vietnamese_block) => {
+                Vietnamese += `- ${vietnamese_block.textContent}\n`;
+            })
+        }
         const html = await response.text();
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
-        const pronunciation = doc.querySelector('.us.dpron-i').querySelector('.pron').textContent;
+        const pronunciation = doc.querySelector('.uk.dpron-i').querySelector('.pron').textContent;
         let meaning = '';
         let exampleSentences = '';
         let partOfSpeechAll = [];
@@ -280,6 +306,7 @@ async function getWordInfo(word) {
             meaning,
             exampleSentences,
             partOfSpeech,
+            Vietnamese,
         };
     } catch (error) {
         return {
@@ -287,6 +314,7 @@ async function getWordInfo(word) {
             meaning: '',
             exampleSentences: '',
             partOfSpeech: [],
+            Vietnamese: '',
         };
     }
 }
