@@ -1,6 +1,6 @@
 {
   "name": "Cambridge to Notion",
-  "version": "1.0",
+  "version": "1.3",
   "description": "Port data from Cambridge dictionary to Notion database",
   "manifest_version": 3,
   "content_scripts": [

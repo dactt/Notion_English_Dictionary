@@ -67,7 +67,7 @@ async function pushToNotion() {
             "title": [
                 {
                     "type": "text",
-                    "text": { "content": word },
+                    "text": { "content": wordInfo.baseWord },
                 }
             ],
         },
@@ -249,7 +249,8 @@ async function getWordInfo(word) {
         const html = await response.text();
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
-        const pronunciation = doc.querySelector('.uk.dpron-i').querySelector('.pron').textContent;
+        const pronunciation = doc.querySelector('.us.dpron-i').querySelector('.pron').textContent;
+        const baseWord = doc.querySelector('.headword').textContent;
         let meaning = '';
         let exampleSentences = '';
         let partOfSpeechAll = [];
@@ -303,6 +304,7 @@ async function getWordInfo(word) {
         exampleSentences = exampleSentences.trim(),
             meaning = meaning.trim()
         return {
+            baseWord,
             pronunciation,
             meaning,
             exampleSentences,
@@ -311,6 +313,7 @@ async function getWordInfo(word) {
         };
     } catch (error) {
         return {
+            baseWord: word,
             pronunciation: '',
             meaning: '',
             exampleSentences: '',
