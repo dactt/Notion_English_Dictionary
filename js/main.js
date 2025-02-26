@@ -95,7 +95,7 @@ async function pushToNotion() {
     const rp = await createNotionPage(template);
 
     if (rp) {
-        document.getElementById("status").innerHTML = "Success"
+        document.getElementById("status").innerHTML = `${wordInfo.Vietnamese}`
     }
     else {
         document.getElementById("status").innerHTML = "Faile to create Notion page"
@@ -264,6 +264,7 @@ async function getWordInfo(word) {
 
         const defBlocks = doc.querySelectorAll('.def-block');
         var def_array = []
+        var index = 1
         defBlocks.forEach((defBlock) => {
             var is_accepted = true
             const def_card = defBlock.querySelector('.def');
@@ -283,21 +284,23 @@ async function getWordInfo(word) {
                 }
                 if (meaning.length + def.length < 1900) {
                     def_array.push(def)
-                    meaning += `- ${def}\n`;
+                    meaning += `${index}\n- ${def}\n`;
                 }
-            };
-
-
+            }
+            else {
+                return;
+            }
             const examples = defBlock.querySelectorAll('.eg');
             if (examples) {
+                exampleSentences += `${index}\n`;
                 examples.forEach((example) => {
-                    const exampleText = example.textContent.trim();
+                    const exampleText = example.textContent.replace('fig.', '').trim();
                     if (exampleSentences.length + exampleText.length < 1900) {
                         exampleSentences += `- ${exampleText}\n`;
                     }
                 });
             }
-            exampleSentences += `\n`;
+            index += 1
         });
 
         const partOfSpeech = [...new Set(partOfSpeechAll)];
